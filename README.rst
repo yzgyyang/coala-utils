@@ -1,1 +1,5 @@
-# coala-decorators
+coala-decorators
+================
+
+coala-decorators holds a collection of useful decorators that are used
+mainly by coala and can be used by outside sources as well.

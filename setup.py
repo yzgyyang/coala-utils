@@ -3,7 +3,7 @@ setup(
   name = 'coala-decorators',
   packages = ['coala-decorators'],
   version = '0.1',
-  description = 'All the coala decorators',
+  description = 'A collection of useful decorators.',
   author = 'Adrian Zatreanu',
   author_email = 'adrian.zatreanu@eestec.ro',
   url = 'https://github.com/coala-analyzer/coala-decorators',

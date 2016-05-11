@@ -1,6 +1,6 @@
 import inspect
 from functools import total_ordering
-
+ 
 
 def yield_once(iterator):
     """

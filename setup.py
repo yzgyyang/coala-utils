@@ -1,7 +1,7 @@
 from distutils.core import setup
 setup(
-  name = 'coala-decorators',
-  packages = ['coala-decorators'],
+  name = 'coala_decorators',
+  packages = ['coala_decorators'],
   version = '0.1.1',
   description = 'A collection of useful decorators.',
   author = 'Adrian Zatreanu',

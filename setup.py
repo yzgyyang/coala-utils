@@ -7,7 +7,6 @@ setup(
   author = 'Adrian Zatreanu',
   author_email = 'adrian.zatreanu@eestec.ro',
   url = 'https://github.com/coala-analyzer/coala-decorators',
-  download_url = 'https://www.github.com/coala-analyzer/coala-decorators/tarball/0.1.1',
   keywords = ['coala', 'decorators', 'bears'],
   classifiers=[
               'Development Status :: 4 - Beta',

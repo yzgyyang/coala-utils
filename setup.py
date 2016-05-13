@@ -1,8 +1,10 @@
+from coala_decorators import VERSION, get_version
 from distutils.core import setup
+
 setup(
   name = 'coala_decorators',
   packages = ['coala_decorators'],
-  version = '0.1.1',
+  version = VERSION,
   description = 'A collection of useful decorators.',
   author = 'Adrian Zatreanu',
   author_email = 'adrian.zatreanu@eestec.ro',

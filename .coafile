@@ -28,3 +28,6 @@ enabled = False
 
 bears = LineCountBear
 max_lines_per_file = 1000
+
+[code duplication and complexity]
+bears = CPDBear, RadonBear

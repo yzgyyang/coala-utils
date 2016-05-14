@@ -1,15 +1,16 @@
-from coala_decorators import VERSION, get_version
+from coala_decorators import VERSION
+from coala_decorators import get_version
 from distutils.core import setup
 
 setup(
-  name = 'coala_decorators',
-  packages = ['coala_decorators'],
-  version = VERSION,
-  description = 'A collection of useful decorators.',
-  author = 'Adrian Zatreanu',
-  author_email = 'adrian.zatreanu@eestec.ro',
-  url = 'https://github.com/coala-analyzer/coala-decorators',
-  keywords = ['coala', 'decorators', 'bears'],
+  name='coala_decorators',
+  packages=['coala_decorators'],
+  version=VERSION,
+  description='A collection of useful decorators.',
+  author='Adrian Zatreanu',
+  author_email='adrian.zatreanu@eestec.ro',
+  url='https://github.com/coala-analyzer/coala-decorators',
+  keywords=['coala', 'decorators', 'bears'],
   classifiers=[
               'Development Status :: 4 - Beta',
               'Environment :: Console',

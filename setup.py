@@ -10,6 +10,7 @@ setup(
   author='Adrian Zatreanu',
   author_email='adrian.zatreanu@eestec.ro',
   url='https://github.com/coala-analyzer/coala-decorators',
+  package_data={'coala_decorators': ["VERSION"]},
   keywords=['coala', 'decorators', 'bears'],
   classifiers=[
               'Development Status :: 4 - Beta',

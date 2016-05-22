@@ -18,12 +18,12 @@ def yield_once(iterator):
                      that yields every result only once at most.
     """
     def yield_once_generator(*args, **kwargs):
-        yielded = []
+        yielded = set()
         for item in iterator(*args, **kwargs):
             if item in yielded:
                 pass
             else:
-                yielded.append(item)
+                yielded.add(item)
                 yield item
 
     return yield_once_generator

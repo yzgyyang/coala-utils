@@ -4,7 +4,8 @@ from functools import total_ordering
 
 def yield_once(iterator):
     """
-    Decorator to make an iterator yield each result only once.
+    Decorator to make an iterator returned by a method yield each result only
+    once.
 
     >>> @yield_once
     ... def generate_list(foo):
@@ -12,8 +13,9 @@ def yield_once(iterator):
     >>> list(generate_list([1, 2, 1]))
     [1, 2]
 
-    :param iterator: Any iterator
-    :return:         An iterator that yields every result only once at most.
+    :param iterator: Any method that returns an iterator
+    :return:         An method returning an iterator
+                     that yields every result only once at most.
     """
     def yield_once_generator(*args, **kwargs):
         yielded = []

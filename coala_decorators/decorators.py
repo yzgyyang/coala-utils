@@ -6,6 +6,12 @@ def yield_once(iterator):
     """
     Decorator to make an iterator yield each result only once.
 
+    >>> @yield_once
+    ... def generate_list(foo):
+    ...     return foo
+    >>> list(generate_list([1, 2, 1]))
+    [1, 2]
+
     :param iterator: Any iterator
     :return:         An iterator that yields every result only once at most.
     """

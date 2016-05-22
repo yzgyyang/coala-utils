@@ -1,5 +1,5 @@
 import inspect
-from functools import total_ordering
+from functools import total_ordering, wraps
 
 
 def yield_once(iterator):
@@ -17,6 +17,7 @@ def yield_once(iterator):
     :return:         An method returning an iterator
                      that yields every result only once at most.
     """
+    @wraps(iterator)
     def yield_once_generator(*args, **kwargs):
         yielded = set()
         for item in iterator(*args, **kwargs):

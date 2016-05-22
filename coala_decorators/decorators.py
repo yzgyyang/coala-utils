@@ -20,9 +20,7 @@ def yield_once(iterator):
     def yield_once_generator(*args, **kwargs):
         yielded = set()
         for item in iterator(*args, **kwargs):
-            if item in yielded:
-                pass
-            else:
+            if item not in yielded:
                 yielded.add(item)
                 yield item
 

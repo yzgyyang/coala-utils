@@ -195,7 +195,7 @@ def generate_eq(*members):
     """
     def decorator(cls):
         def eq(self, other):
-            if type(other) is not type(self):
+            if not isinstance(other, cls):
                 return False
 
             return all(getattr(self, member) == getattr(other, member)

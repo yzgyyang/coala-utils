@@ -1,0 +1,16 @@
+image: python:3.5
+
+cache:
+  paths:
+  - .tox
+
+before_script:
+  - pip install tox==2.3.1
+
+static_analysis:
+  script:
+   - tox -e static_analysis
+
+tests:
+  script:
+   - tox -e tests

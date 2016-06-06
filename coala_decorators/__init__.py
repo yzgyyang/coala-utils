@@ -33,6 +33,15 @@ def _to_list(var):
     """
     Make variable to list.
 
+    >>> _to_list(None)
+    []
+    >>> _to_list('whee')
+    ['whee']
+    >>> _to_list([None])
+    [None]
+    >>> _to_list((1, 2, 3))
+    [1, 2, 3]
+
     :param var: variable of any type
     :return:    list
     """

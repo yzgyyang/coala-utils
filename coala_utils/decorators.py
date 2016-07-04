@@ -1,6 +1,5 @@
 import inspect
 from functools import total_ordering, wraps
-from os.path import join, dirname
 
 
 def yield_once(iterator):
@@ -341,14 +340,3 @@ class classproperty(property):
 
     def __get__(self, obj, type_):
         return self.fget.__get__(None, type_)(type_)
-
-
-VERSION_FILE = join(dirname(__file__), "VERSION")
-
-
-def get_version():
-    with open(VERSION_FILE, 'r') as ver:
-        return ver.readline().strip()
-
-
-VERSION = get_version()

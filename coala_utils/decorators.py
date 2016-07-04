@@ -111,6 +111,19 @@ def get_public_members(obj):
     Retrieves a dict of member-like objects (members or properties) that are
     publically exposed.
 
+    >>> class Reptile:
+    ...     _author = 'George'
+    ...     def __init__(self, length, color):
+    ...         self.length = length
+    ...         self.color = color
+    >>> Animal = Reptile('5m', 'green')
+    >>> dict = get_public_members(Animal)
+    >>> dict['length'] == '5m'
+    True
+    >>> dict['color'] == 'green'
+    True
+
+
     :param obj: The object to probe.
     :return:    A dict of strings, {member : value}.
     """
@@ -197,6 +210,19 @@ def generate_eq(*members):
     Decorator that generates equality and inequality operators for the
     decorated class. The given members as well as the type of self and other
     will be taken into account.
+
+    >>> @generate_eq('length', 'color')
+    ... class Reptile:
+    ...     def __init__(self, length, color):
+    ...         self.length = length
+    ...         self.color = color
+    >>> green_animal = Reptile('3.4', 'green')
+    >>> long_animal = Reptile('3.4', 'green')
+    >>> green_animal == long_animal
+    True
+    >>> short_animal = Reptile('1.2', 'green')
+    >>> long_animal == short_animal
+    False
 
     Note that this decorator modifies the given class in place!
 

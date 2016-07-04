@@ -108,11 +108,11 @@ def _construct_repr_string(obj, members):
 
 def get_public_members(obj):
     """
-    Retrieves a list of member-like objects (members or properties) that are
+    Retrieves a dict of member-like objects (members or properties) that are
     publically exposed.
 
     :param obj: The object to probe.
-    :return:    A list of strings.
+    :return:    A dict of strings, {member : value}.
     """
     return {attr: getattr(obj, attr) for attr in dir(obj)
             if not attr.startswith("_")

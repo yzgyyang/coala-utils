@@ -1,10 +1,10 @@
 from coala_utils import VERSION
 from coala_utils import get_version
 from distutils.core import setup
+from setuptools import find_packages
 
 setup(
   name='coala_utils',
-  packages=['coala_utils'],
   version=VERSION,
   description='A collection of coala utilities.',
   author='Adrian Zatreanu',
@@ -12,6 +12,7 @@ setup(
   maintainers={'Adrian Zatreanu', 'Alexandros Dimos', 'Lasse Schuirmann'},
   url='https://gitlab.com/coala/coala-utils',
   package_data={'coala_utils': ["VERSION"]},
+  packages=find_packages(exclude=["build.*", "tests", "tests.*"]),
   keywords=['coala', 'utils', 'bears', 'decorators'],
   classifiers=[
               'Development Status :: 4 - Beta',

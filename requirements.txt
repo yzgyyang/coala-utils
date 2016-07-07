@@ -1,1 +1,3 @@
 appdirs==1.4.*
+pygments==2.1.*
+prompt-toolkit==1.0.*

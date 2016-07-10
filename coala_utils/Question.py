@@ -1,50 +1,34 @@
-import prompt_toolkit
-from pygments.token import Token
-from pygments.styles.tango import TangoStyle
-
+from pyprint.ConsolePrinter import ConsolePrinter
 from coala_utils.string_processing.StringConverter import StringConverter
 
 
 def ask_question(question,
-                 default="",
-                 prefill=False,
-                 typecast=str,
-                 no_newline=False,
-                 **kwargs):
+                 default=None,
+                 printer=ConsolePrinter(),
+                 typecast=str):
     """
-    Presents a question to the user with the question in yellow
-    using ``prompt``.
+    Asks the user a question and returns the answer.
 
-    :param question:   String to be used as question.
-    :param default:    The default answer to be returned if the user gives
-                       a void answer to the question.
-    :param prefill:    If True, the default answer is prefilled for the user.
-    :param no_newline: If False, newline is appended to the question.
-    :param typecast:   Type to cast the input to.
-    :param kwargs:     Anything else to be passed on to ``prompt``.
-    :return:           The answer from the user.
+    :param question:
+        String to be used as question.
+    :param default:
+        The default answer to be returned if the user gives a void answer
+        to the question.
+    :param printer:
+        The printer object used for console interactions. If this is not
+        given, it defaults to a ``ConsolePrinter``.
+    :param typecast:
+        Type to cast the input to. Defaults to a ``str``.
+    :return:
+        The response from the user.
     """
-    if "style" in kwargs:
-        style = kwargs["style"]
-        del kwargs["style"]
-    else:
-        style = prompt_toolkit.styles.style_from_pygments(
-            TangoStyle,
-            {Token.Prompt: "#ffff00"})
+    printer.print(question, color="yellow", end=" ")
+    if default:
+        printer.print("[" + default + "]", end=" ")
+    printer.print("")
 
-    if not prefill:
-        question += " [{}]".format(default)
+    answer = input()
+    if default and len(answer) == 0:
+        answer = default
 
-    if not no_newline:
-        question += "\n"
-
-    result = prompt_toolkit.prompt(
-        question,
-        default=default if prefill else "",
-        style=style,
-        **kwargs)
-
-    if not prefill and result == "":
-        return default
-    else:
-        return typecast(StringConverter(result))
+    return typecast(StringConverter(answer))

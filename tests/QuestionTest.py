@@ -1,43 +1,44 @@
 import unittest
-from unittest.mock import patch
-from pygments.token import Token
-from pygments.styles.tango import TangoStyle
-from prompt_toolkit.styles import style_from_pygments
 
+from pyprint.ConsolePrinter import ConsolePrinter
+from coala_utils.ContextManagers import (
+    simulate_console_inputs, suppress_stdout, retrieve_stdout)
 from coala_utils.Question import ask_question
 
 
-class QuestionTest(unittest.TestCase):
+class TestQuestion(unittest.TestCase):
 
     def setUp(self):
-        self.question = "What's the answer to life, universe and everything?"
-        self.default = "42"
+        self.printer = ConsolePrinter()
+        self.simulated_input = "42"
+        self.question_text = "What is the answer?"
+        self.caption = "TestCaption"
 
-    @patch("prompt_toolkit.prompt")
-    def test_ask_question(self, patched_prompt):
-        patched_prompt.return_value = self.default
-        self.assertEqual(
-            ask_question(self.question, self.default, prefill=True),
-            self.default)
+    def test_ask_question(self):
+        with simulate_console_inputs(self.simulated_input),\
+                retrieve_stdout() as custom_stdout:
+            response = ask_question(
+                self.question_text,
+                default=None,
+                printer=self.printer)
+            self.assertIn(
+                self.question_text,
+                custom_stdout.getvalue())
+            self.assertEqual(response, self.simulated_input)
 
-    @patch("prompt_toolkit.prompt")
-    def test_ask_question_typecast(self, patched_prompt):
-        patched_prompt.return_value = "life, universe, everything"
-        self.assertEqual(
-            ask_question(self.question, self.default, typecast=list),
-            ["life", "universe", "everything"])
+    def test_question_caption(self):
+        with simulate_console_inputs(""), retrieve_stdout() as custom_stdout:
+            response = ask_question(
+                self.question_text,
+                default=self.caption)
+            self.assertIn(
+                self.question_text + " \x1b[0m[" + self.caption + "]",
+                custom_stdout.getvalue())
+            self.assertEqual(response, self.caption)
 
-    @patch("prompt_toolkit.prompt")
-    def test_ask_question_newline(self, patched_prompt):
-        patched_prompt.return_value = ""
-        self.assertEqual(
-            ask_question(self.question, self.default, no_newline=True),
-            self.default)
-
-    @patch("prompt_toolkit.prompt")
-    def test_ask_question_style(self, patched_prompt):
-        patched_prompt.return_value = self.default
-        red = style_from_pygments(TangoStyle, {Token.Prompt: "#ff0000"})
-        self.assertEqual(
-            ask_question(self.question, self.default, style=red),
-            self.default)
+    def test_question_typecast(self):
+        with simulate_console_inputs("apples, mangoes"), suppress_stdout():
+            response = ask_question(
+                self.question_text,
+                typecast=list)
+            self.assertEqual(response, ["apples", "mangoes"])

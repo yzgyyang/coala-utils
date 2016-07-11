@@ -5,7 +5,8 @@ from coala_utils.string_processing.StringConverter import StringConverter
 def ask_question(question,
                  default=None,
                  printer=ConsolePrinter(),
-                 typecast=str):
+                 typecast=str,
+                 **kwargs):
     """
     Asks the user a question and returns the answer.
 
@@ -19,6 +20,9 @@ def ask_question(question,
         given, it defaults to a ``ConsolePrinter``.
     :param typecast:
         Type to cast the input to. Defaults to a ``str``.
+    :param kwargs:
+        The additional keyword arguments are held for backwards compatibility
+        and for future use with the ``prompt_toolkit``.
     :return:
         The response from the user.
     """

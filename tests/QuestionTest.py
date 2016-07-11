@@ -42,3 +42,13 @@ class TestQuestion(unittest.TestCase):
                 self.question_text,
                 typecast=list)
             self.assertEqual(response, ["apples", "mangoes"])
+
+    def test_invalid_answer_type(self):
+        with simulate_console_inputs("test", "42"), \
+                retrieve_stdout() as custom_stdout:
+            response = ask_question(
+                self.question_text,
+                typecast=int)
+
+            self.assertIn("Please enter a", custom_stdout.getvalue())
+            self.assertEqual(response, 42)

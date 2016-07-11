@@ -26,13 +26,21 @@ def ask_question(question,
     :return:
         The response from the user.
     """
-    printer.print(question, color="yellow", end=" ")
-    if default:
-        printer.print("[" + default + "]", end=" ")
-    printer.print("")
+    while True:
+        printer.print(question, color="yellow", end=" ")
+        if default:
+            printer.print("[" + default + "]", end=" ")
+        printer.print("")
 
-    answer = input()
-    if default and len(answer) == 0:
-        answer = default
+        answer = input()
+        if default and len(answer) == 0:
+            answer = default
 
-    return typecast(StringConverter(answer))
+        try:
+            answer = typecast(StringConverter(answer))
+        except BaseException as e:
+            printer.print(
+                str(e) + "\nPlease enter a valid answer.",
+                color="blue")
+        else:
+            return answer

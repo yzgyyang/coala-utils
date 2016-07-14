@@ -19,10 +19,11 @@ def yield_once(iterator):
     """
     @wraps(iterator)
     def yield_once_generator(*args, **kwargs):
-        yielded = set()
+        # a list is used to avoid an unhashable type TypeError
+        yielded = []
         for item in iterator(*args, **kwargs):
             if item not in yielded:
-                yielded.add(item)
+                yielded.append(item)
                 yield item
 
     return yield_once_generator

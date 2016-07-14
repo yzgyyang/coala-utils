@@ -15,6 +15,8 @@ class YieldOnceTest(unittest.TestCase):
 
         self.assertEqual(list(iterate_over_list([1, 1, 2, 2, 3, 3, 1, 4])),
                          [1, 2, 3, 4])
+        self.assertEqual(list(iterate_over_list([[], [1, 2, 3], [], [1, 2]])),
+                         [[], [1, 2, 3], [1, 2]])
 
 
 class ArgumentsToListsTest(unittest.TestCase):

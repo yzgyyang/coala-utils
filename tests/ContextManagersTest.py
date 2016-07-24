@@ -8,7 +8,7 @@ import unittest
 from coala_utils.ContextManagers import (
     change_directory, make_temp, prepare_file, retrieve_stdout,
     retrieve_stderr, simulate_console_inputs, subprocess_timeout,
-    suppress_stdout)
+    suppress_stdout, open_files)
 
 
 def create_process_group(command_array, **kwargs):
@@ -161,3 +161,21 @@ class ContextManagersTest(unittest.TestCase):
             with change_directory(tempdir):
                 self.assertEqual(os.getcwd(), tempdir)
         self.assertEqual(os.getcwd(), old_dir)
+
+    def test_open_files(self):
+        current_dir = os.getcwd()
+        file1 = os.path.join(current_dir, 'file1')
+        file2 = os.path.join(current_dir, 'file2')
+        expected = "Hello, world!"
+        with open(file2, 'w') as f2:
+            f2.write(expected)
+        with open_files((file1, 'w'), (file2, 'r')) as (f1, f2):
+            f1.write(expected)
+            result = f2.read()
+            self.assertEqual(expected, result)
+        with self.assertRaises(ValueError):
+            f1.write('something')
+        with open(file1, 'r') as f1:
+            self.assertEqual(f1.read(), expected)
+        os.remove(file1)
+        os.remove(file2)

@@ -245,3 +245,18 @@ def change_directory(path):
         yield
     finally:
         os.chdir(old_dir)
+
+
+@contextmanager
+def open_files(*args):
+    """
+    Handle opening and closing for multiple files at once.
+
+    :param args: Tuples with the format ``(filename, mode)``.
+    """
+    files = []
+    for (file, mode) in args:
+        files.append(open(file, mode))
+    yield tuple(files)
+    for file in files:
+        file.close()

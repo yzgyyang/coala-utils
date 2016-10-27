@@ -367,3 +367,29 @@ class classproperty(property):
 
     def __get__(self, obj, type_):
         return self.fget.__get__(None, type_)(type_)
+
+
+def generate_consistency_check(*members):
+    """
+   Generates a ``check_consistency`` method which checks if the members given
+   to the decorator are present and evaluate to True:
+
+   >>> from collections import namedtuple
+   >>> @generate_consistency_check("a")
+   ... class Test(namedtuple("TestBase", "a, b")):
+   ...     pass
+   >>> Test(a="test", b=None).check_consistency()
+   True
+   >>> Test(a="", b="test").check_consistency()
+   False
+
+   :param members: The members to check for consistency.
+   """
+    def decorator(cls):
+        cls.check_consistency = (
+            lambda self: all(getattr(self, member) for member in members)
+        )
+
+        return cls
+
+    return decorator

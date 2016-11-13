@@ -3,6 +3,11 @@ from coala_utils import get_version
 from distutils.core import setup
 from setuptools import find_packages
 
+
+with open("README.rst") as readme:
+    long_description = readme.read()
+
+
 setup(
   name='coala_utils',
   version=VERSION,
@@ -13,6 +18,7 @@ setup(
   url='https://gitlab.com/coala/coala-utils',
   package_data={'coala_utils': ["VERSION"]},
   packages=find_packages(exclude=["build.*", "tests", "tests.*"]),
+  long_description=long_description,
   keywords=['coala', 'utils', 'bears', 'decorators'],
   classifiers=[
               'Development Status :: 4 - Beta',

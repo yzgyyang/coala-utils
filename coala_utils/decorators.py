@@ -66,6 +66,7 @@ def arguments_to_lists(function):
     :param function: target function
     :return:         target function with only lists as parameters
     """
+    @wraps(function)
     def l_function(*args, **kwargs):
         l_args = [_to_list(arg) for arg in args]
         l_kwargs = {}
@@ -329,6 +330,7 @@ def enforce_signature(function):
         if arg in annotations:
             unnamed_annotations[i] = (annotations[arg], arg)
 
+    @wraps(function)
     def decorated(*args, **kwargs):
         for i, annotation in unnamed_annotations.items():
             if i < len(args):

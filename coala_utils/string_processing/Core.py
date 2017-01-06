@@ -159,6 +159,29 @@ def unescaped_split(pattern,
                   use_regex)
 
 
+def join_names(values):
+    """
+    Produces a string by concatenating the items in ``values`` with
+    commas, except the last element, which is concatenated with an "and".
+
+    >>> join_names(["apples", "bananas", "oranges"])
+    'apples, bananas and oranges'
+    >>> join_names(["apples", "bananas"])
+    'apples and bananas'
+    >>> join_names(["apples"])
+    'apples'
+
+    :param values:
+        A list of strings.
+    :return:
+        The concatenated string.
+    """
+    if len(values) > 1:
+        return ', '.join(values[:-1]) + ' and ' + values[-1]
+    else:
+        return values[0]
+
+
 def search_in_between(begin,
                       end,
                       string,

@@ -1,4 +1,18 @@
 import codecs
+import tempfile
+import os
+
+
+def create_tempfile(suffix="", prefix="tmp", dir=None):
+    """
+    Creates a temporary file with a closed stream
+    The user is expected to clean up after use.
+
+    :return: filepath of a temporary file.
+    """
+    temporary = tempfile.mkstemp(suffix=suffix, prefix=prefix, dir=dir)
+    os.close(temporary[0])
+    return temporary[1]
 
 
 def detect_encoding(filename, default='utf-8'):

@@ -3,12 +3,12 @@ import os
 import platform
 import signal
 import sys
-import tempfile
 import threading
 from contextlib import closing, contextmanager
 from io import StringIO
 
 from coala_utils.MutableValue import MutableValue
+from coala_utils.FileUtils import create_tempfile
 
 
 @contextmanager
@@ -197,12 +197,11 @@ def make_temp(suffix="", prefix="tmp", dir=None):
 
     :return: A contextmanager retrieving the file path.
     """
-    temporary = tempfile.mkstemp(suffix=suffix, prefix=prefix, dir=dir)
-    os.close(temporary[0])
+    tempfile = create_tempfile(suffix=suffix, prefix=prefix, dir=dir)
     try:
-        yield temporary[1]
+        yield tempfile
     finally:
-        os.remove(temporary[1])
+        os.remove(tempfile)
 
 
 @contextmanager

@@ -139,13 +139,13 @@ class StringConverter:
 
     @property
     def value(self):
-        return self.__value
+        return self._value
 
     @value.setter
     def value(self, newval):
-        self.__value = str(newval)
+        self._value = str(newval)
         if self.__strip_whitespaces:
-            self.__value = unescaped_strip(self.__value)
+            self._value = unescaped_strip(self._value)
 
         self.__prepare_list()
         self.__prepare_dict()

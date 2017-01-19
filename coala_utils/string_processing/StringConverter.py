@@ -97,7 +97,7 @@ class StringConverter:
                    ")")
 
         return list(unescaped_split(pattern,
-                                    self.value,
+                                    self._value,
                                     use_regex=True))
 
     def __prepare_list(self):

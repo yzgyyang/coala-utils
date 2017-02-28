@@ -141,6 +141,54 @@ def generate_repr(*members):
     The generated ``__repr__()`` function prints in following format:
     <ClassName object(field1=1, field2='A string', field3=[1, 2, 3]) at 0xAAAA>
 
+    You can let ``generate_repr`` automatically detect fields in your class:
+
+    >>> @generate_repr()
+    ... class Reptile:
+    ...     def __init__(self):
+    ...         self.color = 'green'
+    ...         self.weight = 15
+    ...     @property
+    ...     def rat(self, num=6):
+    ...         return self.weight * num
+    ...     def rat_need(self, num=5):
+    ...         return self.weight * num * 2
+    >>> Reptile()
+    <Reptile object(color='green', rat=90, weight=15) at 0x...>
+
+    Members you add after instantiation get picked up automatically:
+
+    >>> green_animal = Reptile()
+    >>> green_animal.shape = 'curve'
+    >>> green_animal
+    <Reptile object(color='green', rat=90, shape='curve', weight=15) at 0x...>
+
+    You may also provide explicitly a sequence of arguments you want to print:
+
+    >>> @generate_repr('length', 'color', 'rat_need')
+    ... class Reptile:
+    ...     def __init__(self):
+    ...         self.color = 'green'
+    ...         self.length = 3.4
+    ...         self.weight = 15
+    ...     def rat_need(self, num=5):
+    ...         return self.weight * num * 2
+    >>> Reptile()
+    <Reptile object(length=3.4, color='green', rat_need=150) at 0x...>
+
+    You can also have a custom representation of the arguments instead of using
+    `str` type only. Using `None` as second argument in the tuple for custom
+    representation is equivalent to using `str` type implicitly:
+
+    >>> @generate_repr('length',
+    ...                ('rat_weight', lambda x: ', '.join(str(v) for v in x)))
+    ... class Reptile:
+    ...     def __init__(self):
+    ...         self.length = 3.4
+    ...         self.rat_weight = [15, 20, 25]
+    >>> Reptile()
+    <Reptile object(length=3.4, rat_weight=15, 20, 25) at 0x...>
+
     Note that this decorator modifies the given class in place!
 
     :param members:         An iterable of member names to include into the

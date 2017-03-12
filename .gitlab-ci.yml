@@ -1,11 +1,14 @@
 cache:
   paths:
     - .tox
+    - ~/.local/share/coala-bears/
+    - ~/.cache/pip
 
 static_analysis:
-  image: coala/base:0.8
+  image: python:3.5-alpine
   script:
-    - coala-ci
+    - pip install 'coala-bears[alldeps]'
+    - coala --ci
 
 tests:
   image: python:3.5-alpine

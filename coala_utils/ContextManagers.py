@@ -221,7 +221,7 @@ def prepare_file(lines,
     :param tempfile_kwargs:  Kwargs passed to tempfile.mkstemp().
     """
     if force_linebreaks:
-        lines = type(lines)(line if line.endswith('\n') else line+'\n'
+        lines = type(lines)(line if line.endswith('\n') else line + '\n'
                             for line in lines)
 
     if not create_tempfile and filename is None:

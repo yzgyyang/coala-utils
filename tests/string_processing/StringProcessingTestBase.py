@@ -62,7 +62,7 @@ class StringProcessingTestBase(unittest.TestCase):
         r"bcc5(((((((((((((((((((1)2)3)))))))))))))))))",
         r"Let's (do (it ) more ) complicated ) ) ) () (hello.)",
         r"()assk\\(This\ is a word\)and((in a\\\ word\\\\\) another \)) "
-            r"one anyway.",
+        r"one anyway.",
         r"bcc5\(\(\((((((\\\(((((((((((1)2)3))\\\\\)))))))))))))\)\)",
         r"Let's \(do (it ) more ) \\ complicated ) ) ) () (hello.)\\z"]
 

@@ -18,6 +18,7 @@ default_actions =
 
 [autopep8]
 bears = PEP8Bear
+pep_ignore = E731
 
 default_actions = PEP8Bear: ApplyPatchAction
 

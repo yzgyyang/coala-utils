@@ -10,3 +10,4 @@ def get_version():
 
 
 VERSION = get_version()
+__version__ = VERSION

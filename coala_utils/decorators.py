@@ -274,6 +274,12 @@ def generate_eq(*members):
     >>> long_animal == short_animal
     False
 
+    The members used for comparison can be accessed from the
+    ``__compare_fields__`` for later use.
+
+    >>> Reptile.__compare_fields__
+    ('length', 'color')
+
     Note that this decorator modifies the given class in place!
 
     :param members: A list of members to compare for equality.
@@ -291,6 +297,7 @@ def generate_eq(*members):
 
         cls.__eq__ = eq
         cls.__ne__ = ne
+        cls.__compare_fields__ = tuple(members)
         return cls
 
     return decorator
@@ -304,6 +311,9 @@ def generate_ordering(*members):
     (Comparisons with child classes will thus work fine with the capabilities
     of the base class as python will choose the base classes comparison
     operator in that case.)
+
+    The members used for comparison can be accessed from the
+    ``__compare_fields__`` for later use.
 
     Note that this decorator modifies the given class in place!
 
@@ -332,6 +342,7 @@ def generate_ordering(*members):
             return False
 
         cls.__lt__ = lt
+        cls.__compare_fields__ = tuple(members)
         return total_ordering(generate_eq(*members)(cls))
 
     return decorator

@@ -1,14 +1,17 @@
 cache:
   paths:
-  - .tox
+    - .tox
 
 static_analysis:
   image: coala/base:0.8
   script:
-   - coala-ci
+    - coala-ci
 
 tests:
   image: python:3.5-alpine
+  coverage: '/\d+\%\s*$/'
   script:
-   - pip install tox==2.3.1
-   - tox -e tests
+    - apk add --no-cache git
+    - pip install tox~=2.7 codecov~=2.0.5
+    - tox -e tests
+    - codecov

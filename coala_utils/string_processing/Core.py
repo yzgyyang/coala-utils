@@ -5,29 +5,6 @@ from coala_utils.string_processing.Filters import (limit,
                                                    trim_empty_matches)
 
 
-def join_names(values):
-    """
-    Produces a string by concatenating the items in ``values`` with
-    commas, except the last element, which is concatenated with an "and".
-
-    >>> join_names(["apples", "bananas", "oranges"])
-    'apples, bananas and oranges'
-    >>> join_names(["apples", "bananas"])
-    'apples and bananas'
-    >>> join_names(["apples"])
-    'apples'
-
-    :param values:
-        A list of strings.
-    :return:
-        The concatenated string.
-    """
-    if len(values) > 1:
-        return ', '.join(values[:-1]) + ' and ' + values[-1]
-    else:
-        return values[0]
-
-
 def search_for(pattern, string, flags=0, max_match=0, use_regex=False):
     """
     Searches for a given pattern in a string.

@@ -1,6 +1,8 @@
 import inspect
 from functools import total_ordering, wraps
 
+from coala_utils.Comparable import Comparable
+
 
 def yield_once(iterator):
     """
@@ -280,6 +282,11 @@ def generate_eq(*members):
     >>> Reptile.__compare_fields__
     ('length', 'color')
 
+    The decorated classes are also subclasses of the ``Comparable`` class.
+
+    >>> issubclass(Reptile, Comparable)
+    True
+
     Note that this decorator modifies the given class in place!
 
     :param members: A list of members to compare for equality.
@@ -298,6 +305,7 @@ def generate_eq(*members):
         cls.__eq__ = eq
         cls.__ne__ = ne
         cls.__compare_fields__ = tuple(members)
+        Comparable.register(cls)
         return cls
 
     return decorator
@@ -314,6 +322,8 @@ def generate_ordering(*members):
 
     The members used for comparison can be accessed from the
     ``__compare_fields__`` for later use.
+
+    The decorated classes are also subclasses of the ``Comparable`` class.
 
     Note that this decorator modifies the given class in place!
 
@@ -343,6 +353,7 @@ def generate_ordering(*members):
 
         cls.__lt__ = lt
         cls.__compare_fields__ = tuple(members)
+        Comparable.register(cls)
         return total_ordering(generate_eq(*members)(cls))
 
     return decorator

@@ -320,10 +320,26 @@ def generate_ordering(*members):
     of the base class as python will choose the base classes comparison
     operator in that case.)
 
+    >>> @generate_ordering('line', 'column')
+    ... class TextPosition:
+    ...     def __init__(self, line, column):
+    ...         self.line = line
+    ...         self.column = column
+    >>> start = TextPosition(5, 10)
+    >>> end = TextPosition(7, 12)
+    >>> start < end
+    True
+
     The members used for comparison can be accessed from the
     ``__compare_fields__`` for later use.
 
+    >>> TextPosition.__compare_fields__
+    ('line', 'column')
+
     The decorated classes are also subclasses of the ``Comparable`` class.
+
+    >>> issubclass(TextPosition, Comparable)
+    True
 
     Note that this decorator modifies the given class in place!
 

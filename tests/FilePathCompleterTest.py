@@ -1,5 +1,4 @@
 import os
-import readline
 import shutil
 import unittest
 
@@ -7,6 +6,11 @@ from coala_utils.FilePathCompleter import (
     path_completer, FilePathCompleter)
 from coala_utils.ContextManagers import (
     retrieve_stdout, simulate_console_inputs)
+
+try:
+    import readline
+except ImportError:
+    import pyreadline as readline
 
 
 class FilePathCompleterTest(unittest.TestCase):

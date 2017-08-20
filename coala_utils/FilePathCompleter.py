@@ -1,6 +1,11 @@
 import glob
 import os
-import readline
+
+# GNU readline is not available for Windows
+try:
+    import readline
+except ImportError:  # pragma Linux: no cover
+    import pyreadline as readline
 
 
 def path_completer(text, state):

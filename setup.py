@@ -7,6 +7,11 @@ from setuptools import find_packages
 with open("README.rst") as readme:
     long_description = readme.read()
 
+with open('requirements.txt') as requirements:
+    required = requirements.read().splitlines()
+
+with open('test-requirements.txt') as requirements:
+    test_required = requirements.read().splitlines()
 
 setup(
     name='coala_utils',
@@ -18,6 +23,8 @@ setup(
     url='https://gitlab.com/coala/coala-utils',
     package_data={'coala_utils': ["VERSION"]},
     packages=find_packages(exclude=["build.*", "tests", "tests.*"]),
+    install_requires=required,
+    tests_require=test_required,
     long_description=long_description,
     keywords=['coala', 'utils', 'bears', 'decorators'],
     classifiers=[

@@ -1,8 +1,9 @@
 import unittest
+import logging
 
 from coala_utils.decorators import (
-    arguments_to_lists, enforce_signature, generate_eq, generate_ordering,
-    generate_repr, yield_once)
+    arguments_to_lists, check_logs, enforce_signature, generate_eq,
+    generate_ordering, generate_repr, yield_once)
 
 
 class YieldOnceTest(unittest.TestCase):
@@ -323,3 +324,50 @@ class EnforceSignatureTest(unittest.TestCase):
 
         test_function(4, "t")
         test_function(None, "t", "anything", "test")
+
+
+class CheckLogsTest(unittest.TestCase):
+
+    def test_log_warning_capture(self):
+        @check_logs(('root',
+                     'WARNING',
+                     'Parameter is deprecated.'))
+        def test_function():
+            logging.warn('Parameter is deprecated.')
+
+        test_function()
+
+    def test_log_error_capture(self):
+        @check_logs(('root',
+                     'ERROR',
+                     'Parameter is deprecated.'))
+        def test_function():
+            logging.error('Parameter is deprecated.')
+
+        test_function()
+
+    def test_log_info_capture(self):
+        @check_logs(('root',
+                     'INFO',
+                     'Parameter is deprecated.'))
+        def test_function():
+            logging.info('Parameter is deprecated.')
+
+        test_function()
+
+    def test_multiple_log_messages(self):
+        @check_logs(('root',
+                     'INFO',
+                     'Parameter is deprecated.'),
+                    ('root',
+                     'ERROR',
+                     'Parameter is deprecated.'),
+                    ('root',
+                     'WARNING',
+                     'Parameter is deprecated.'))
+        def test_function():
+            logging.info('Parameter is deprecated.')
+            logging.error('Parameter is deprecated.')
+            logging.warn('Parameter is deprecated.')
+
+        test_function()

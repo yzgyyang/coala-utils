@@ -1,6 +1,5 @@
 import inspect
 from functools import total_ordering, wraps
-from testfixtures import LogCapture
 
 from coala_utils.Comparable import Comparable
 
@@ -480,65 +479,5 @@ def generate_consistency_check(*members):
         )
 
         return cls
-
-    return decorator
-
-
-def check_logs(*message, **logcapture_params):
-    """
-    Decorator for capturing and verifying log messages generated during
-    testing of functions. It automates the verification process
-    done by calling ``LogCapture.check``.
-
-    If you need more control over the logging capture process you can
-    use ``LogCapture.check`` directly in your test function.
-
-    >>> import logging
-    >>> messages = [
-    ...     ('root', 'WARNING', 'Parameter A is deprecated.'),
-    ...     ('root', 'WARNING', 'Parameter B is deprecated.')]
-
-    >>> @check_logs(*messages)
-    ... def foo_test():
-    ...     logging.warn('Parameter A is deprecated.')
-    ...     logging.warn('Parameter B is deprecated.')
-    >>> foo_test()
-
-    You can control the used ``LogCapture`` object by passing named
-    arguments to the decorator.
-
-    >>> @check_logs(*messages, level=logging.WARNING)
-    ... def foo_test():
-    ...     logging.warn('Parameter A is deprecated.')
-    ...     logging.warn('Parameter B is deprecated.')
-    ...     logging.info('Parameter C is deprecated.')
-    >>> foo_test()
-
-    If the messages passed don't match the sequence generated at
-    runtime, an ``AssertionError`` is raised.
-
-    >>> @check_logs(*messages)
-    ... def foo_test():
-    ...     logging.warn('Parameter B is deprecated.')
-    >>> foo_test()
-    Traceback (most recent call last):
-        ...
-    AssertionError: sequence not as expected:
-    ...
-
-    :param message:
-        List of tuples passed to ``LogCapture.check``.
-    :param logcapture_params:
-        Named arguments used for initializing the
-        ``LogCapture`` object.
-    """
-    def decorator(function):
-        @wraps(function)
-        def wrapper(*args, **kwargs):
-            with LogCapture(**logcapture_params) as capture:
-                function(*args, **kwargs)
-                capture.check(*message)
-
-        return wrapper
 
     return decorator

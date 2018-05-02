@@ -1,0 +1,31 @@
+overrides: coala.yaml
+
+name: coala_utils
+description: A collection of coala utilities
+url: https://gitlab.com/coala/coala-utils
+author: Adrian Zatreanu
+contact: adrianzatreanu1@gmail.com
+license: MIT
+version: 0.7.0-dev
+release: 0.7.0-dev
+build_version: 0.7.0
+package_module: coala_utils
+docs_output_dir: false
+
+dependencies:
+  - appdirs==1.4.*
+  - pyprint==0.2.*
+  - pyreadline~=2.1; platform_system == 'Windows'
+
+configuration:
+  template_dir:
+    - .moban.dt/
+    - ../coala-mobans/templates/
+    - ../coala-mobans/assets/
+    - ../setupmobans/templates/
+  configuration: .moban.yaml
+  configuration_dir: ../coala-mobans/
+targets:
+  - setup.py: utils-setup.py.jj2
+  - requirements.txt: requirements.txt.jj2
+  - coala_utils/VERSION: VERSION.jj2

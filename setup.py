@@ -1,11 +1,49 @@
-from coala_utils import VERSION
-from coala_utils import get_version
-from distutils.core import setup
-from setuptools import find_packages
+#!/usr/bin/env python3
+
+import locale
+import platform
+import sys
+from subprocess import call
+
+import setuptools.command.build_py
+from setuptools import find_packages, setup
+from setuptools.command.test import test as TestCommand
+
+try:
+    lc = locale.getlocale()
+    pf = platform.system()
+    if pf != 'Windows' and lc == (None, None):
+        locale.setlocale(locale.LC_ALL, 'C.UTF-8')
+except (ValueError, UnicodeError):
+    locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+
+VERSION = '0.7.0'
+
+# Workaround missing 'docs' command
+__all__ = ['call']
 
 
-with open("README.rst") as readme:
-    long_description = readme.read()
+class PyTestCommand(TestCommand):
+    """
+    From https://pytest.org/latest/goodpractices.html
+    """
+    user_options = [('pytest-args=', 'a', 'Arguments to pass to py.test')]
+
+    def initialize_options(self):
+        TestCommand.initialize_options(self)
+        self.pytest_args = []
+
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        # import here, cause outside the eggs aren't loaded
+        import pytest
+        errno = pytest.main(self.pytest_args)
+        sys.exit(errno)
+
 
 with open('requirements.txt') as requirements:
     required = requirements.read().splitlines()
@@ -13,14 +51,20 @@ with open('requirements.txt') as requirements:
 with open('test-requirements.txt') as requirements:
     test_required = requirements.read().splitlines()
 
+with open('README.rst') as readme:
+    long_description = readme.read()
+
+extras_require = None
+data_files = None
+
 if __name__ == '__main__':
     setup(
         name='coala_utils',
         version=VERSION,
-        description='A collection of coala utilities.',
+        description='A collection of coala utilities',
         author='Adrian Zatreanu',
         author_email='adrianzatreanu1@gmail.com',
-        maintainers='Adrian Zatreanu, Alexandros Dimos, Lasse Schuirmann',
+        maintainer='Adrian Zatreanu, Alexandros Dimos, Lasse Schuirmann',
         url='https://gitlab.com/coala/coala-utils',
         package_data={'coala_utils': ["VERSION"]},
         packages=find_packages(exclude=["build.*", "tests", "tests.*"]),
@@ -47,4 +91,7 @@ if __name__ == '__main__':
             'Programming Language :: Python :: 3.5',
             'Programming Language :: Python :: 3 :: Only',
         ],
+        cmdclass={
+            'test': PyTestCommand,
+        },
     )

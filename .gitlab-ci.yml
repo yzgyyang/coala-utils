@@ -1,3 +1,13 @@
+moban:
+  image: python:3.5
+  before_script:
+    - pip install moban
+    - git clone https://github.com/moremoban/setupmobans ../setupmobans
+    - git clone https://gitlab.com/coala/mobans ../coala-mobans
+  script:
+    - moban
+    - git diff --exit-code
+
 cache:
   paths:
     - .tox

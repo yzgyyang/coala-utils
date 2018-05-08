@@ -28,13 +28,13 @@ class FilePathCompleterTest(unittest.TestCase):
 
     def assert_expected_output(self, user_input, expected_output):
         state = 0
+        complete_user_input = []
         try:
             while True:
-                self.assertEqual(expected_output[state],
-                                 path_completer(user_input, state))
+                complete_user_input.append(path_completer(user_input, state))
                 state += 1
         except IndexError:
-            self.assertEqual(state, len(expected_output))
+            self.assertCountEqual(complete_user_input, expected_output)
 
     def test_path_completer(self):
         self.fpc.activate()

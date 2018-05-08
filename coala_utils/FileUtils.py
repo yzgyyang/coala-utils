@@ -23,7 +23,7 @@ def detect_encoding(filename, default='utf-8'):
 
     >>> import os, tempfile
     >>> text = 'ä'
-    >>> encoded = codecs.encode(text, encoding='utf-16-le')
+    >>> encoded = codecs.encode(text, 'utf-16-le')
     >>> fhandle, filename = tempfile.mkstemp()
     >>> os.write(fhandle, codecs.BOM_UTF16_LE + encoded)
     4

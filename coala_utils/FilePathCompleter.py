@@ -8,12 +8,19 @@ except ImportError:  # pragma Linux: no cover
     import pyreadline as readline
 
 
+def sorted_glob(glob_str):
+    """
+    Returns sorted output from glob.glob()
+    """
+    return sorted(glob.glob(glob_str))
+
+
 def path_completer(text, state):
     """
     Completer method for system paths.
     """
     return [x if os.path.isfile(x) else (x + os.sep)
-            for x in glob.glob(text + '*')][state]
+            for x in sorted_glob(text + '*')][state]
 
 
 class FilePathCompleter:

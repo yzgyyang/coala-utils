@@ -19,7 +19,7 @@ setup(
     description='A collection of coala utilities.',
     author='Adrian Zatreanu',
     author_email='adrianzatreanu1@gmail.com',
-    maintainers={'Adrian Zatreanu', 'Alexandros Dimos', 'Lasse Schuirmann'},
+    maintainer='Adrian Zatreanu, Alexandros Dimos, Lasse Schuirmann',
     url='https://gitlab.com/coala/coala-utils',
     package_data={'coala_utils': ["VERSION"]},
     packages=find_packages(exclude=["build.*", "tests", "tests.*"]),

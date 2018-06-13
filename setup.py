@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 import locale
+import os
 import platform
 import sys
-from subprocess import call
 
 import setuptools.command.build_py
 from setuptools import find_packages, setup
@@ -14,13 +14,24 @@ try:
     pf = platform.system()
     if pf != 'Windows' and lc == (None, None):
         locale.setlocale(locale.LC_ALL, 'C.UTF-8')
-except (ValueError, UnicodeError):
+except (ValueError, UnicodeError, locale.Error):
     locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
 VERSION = '0.7.0'
 
+SETUP_COMMANDS = {}
+
 # Workaround missing 'docs' command
 __all__ = ['call']
+
+
+def set_python_path(path):
+    if 'PYTHONPATH' in os.environ:
+        user_paths = os.environ['PYTHONPATH'].split(os.pathsep)
+        user_paths.insert(0, path)
+        os.environ['PYTHONPATH'] = os.pathsep.join(user_paths)
+    else:
+        os.environ['PYTHONPATH'] = path
 
 
 class PyTestCommand(TestCommand):
@@ -45,17 +56,30 @@ class PyTestCommand(TestCommand):
         sys.exit(errno)
 
 
-with open('requirements.txt') as requirements:
+SETUP_COMMANDS['test'] = PyTestCommand
+
+
+__dir__ = os.path.dirname(__file__)
+filename = os.path.join(__dir__, 'requirements.txt')
+with open(filename) as requirements:
     required = requirements.read().splitlines()
 
-with open('test-requirements.txt') as requirements:
+filename = os.path.join(__dir__, 'test-requirements.txt')
+with open(filename) as requirements:
     test_required = requirements.read().splitlines()
 
-with open('README.rst') as readme:
+filename = os.path.join(__dir__, 'README.rst')
+with open(filename) as readme:
     long_description = readme.read()
 
 extras_require = None
+EXTRAS_REQUIRE = {}
 data_files = None
+
+if extras_require:
+    EXTRAS_REQUIRE = extras_require
+SETUP_COMMANDS.update({
+})
 
 if __name__ == '__main__':
     setup(

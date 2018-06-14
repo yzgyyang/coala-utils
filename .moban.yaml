@@ -28,4 +28,5 @@ configuration:
 targets:
   - setup.py: utils-setup.py.jj2
   - requirements.txt: requirements.txt.jj2
+  - test-requirements.txt: test-requirements.txt.jj2
   - coala_utils/VERSION: VERSION.jj2

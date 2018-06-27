@@ -1,3 +1,4 @@
+from pyprint.Printer import Printer
 from pyprint.ConsolePrinter import ConsolePrinter
 from coala_utils.Constants import TRUE_STRINGS, FALSE_STRINGS
 from coala_utils.string_processing.StringConverter import StringConverter
@@ -5,7 +6,7 @@ from coala_utils.string_processing.StringConverter import StringConverter
 
 def ask_question(question,
                  default=None,
-                 printer=ConsolePrinter(),
+                 printer: Printer = None,
                  typecast=str,
                  **kwargs):
     """
@@ -18,7 +19,8 @@ def ask_question(question,
         to the question.
     :param printer:
         The printer object used for console interactions. If this is not
-        given, it defaults to a ``ConsolePrinter``.
+        given, it defaults to a ``ConsolePrinter`` which prints outputs to
+        the console.
     :param typecast:
         Type to cast the input to. Defaults to a ``str``.
     :param kwargs:
@@ -27,6 +29,9 @@ def ask_question(question,
     :return:
         The response from the user.
     """
+    if printer is None:
+        printer = ConsolePrinter()
+
     while True:
         printer.print(question, color="yellow", end=" ")
         if default:
@@ -49,7 +54,7 @@ def ask_question(question,
 
 def ask_yes_no(question,
                default=None,
-               printer=ConsolePrinter()):
+               printer: Printer = None):
     """
     Asks the user a yes/no question until the user gives a clear answer,
     and returns a boolean value representing the answer.
@@ -61,12 +66,16 @@ def ask_yes_no(question,
         to the question. It must be one of ('yes', 'no', None).
     :param printer:
         The printer object used for console interactions. If this is not
-        given, it defaults to a ``ConsolePrinter``.
+        given, it defaults to a ``ConsolePrinter`` which prints outputs to
+        the console.
     :return:
         True if the user input is one of coala-utils.Constants.TRUE_STRING,
         False if the user input is one of coala-utils.Constant.FALSE_STRING.
         The user input is case insensitive.
     """
+    if printer is None:
+        printer = ConsolePrinter()
+
     if default is None:
         prompt = ' [y/n] '
     elif default == 'yes':

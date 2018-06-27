@@ -77,8 +77,7 @@ class TestYesNo(unittest.TestCase):
         with simulate_console_inputs(''), retrieve_stdout() as custom_stdout:
             response = ask_yes_no(
                 self.question_text,
-                default='no',
-                printer=self.printer)
+                default='no')
             self.assertIn(
                 self.question_text,
                 custom_stdout.getvalue())

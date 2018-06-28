@@ -18,6 +18,7 @@ except (ValueError, UnicodeError, locale.Error):
     locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
 VERSION = '0.7.0'
+DEPENDENCY_LINKS = []
 
 SETUP_COMMANDS = {}
 
@@ -60,13 +61,43 @@ SETUP_COMMANDS['test'] = PyTestCommand
 
 
 __dir__ = os.path.dirname(__file__)
-filename = os.path.join(__dir__, 'requirements.txt')
-with open(filename) as requirements:
-    required = requirements.read().splitlines()
 
-filename = os.path.join(__dir__, 'test-requirements.txt')
-with open(filename) as requirements:
-    test_required = requirements.read().splitlines()
+
+def read_requirements(filename):
+    """
+    Parse a requirements file.
+
+    Accepts vcs+ links, and places the URL into
+    `DEPENDENCY_LINKS`.
+
+    :return: list of str for each package
+    """
+    data = []
+    filename = os.path.join(__dir__, filename)
+    with open(filename) as requirements:
+        required = requirements.read().splitlines()
+        for line in required:
+            if not line or line.startswith('#'):
+                continue
+
+            if '+' in line[:4]:
+                repo_link, egg_name = line.split('#egg=')
+                if not egg_name:
+                    raise ValueError('Unknown requirement: {0}'
+                                     .format(line))
+
+                DEPENDENCY_LINKS.append(repo_link)
+
+                line = egg_name.replace('-', '==')
+
+            data.append(line)
+
+    return data
+
+
+required = read_requirements('requirements.txt')
+
+test_required = read_requirements('test-requirements.txt')
 
 filename = os.path.join(__dir__, 'README.rst')
 with open(filename) as readme:
@@ -90,8 +121,8 @@ if __name__ == '__main__':
         author_email='adrianzatreanu1@gmail.com',
         maintainer='Adrian Zatreanu, Alexandros Dimos, Lasse Schuirmann',
         url='https://gitlab.com/coala/coala-utils',
-        package_data={'coala_utils': ["VERSION"]},
-        packages=find_packages(exclude=["build.*", "tests", "tests.*"]),
+        package_data={'coala_utils': ['VERSION']},
+        packages=find_packages(exclude=['build.*', 'tests', 'tests.*']),
         install_requires=required,
         tests_require=test_required,
         long_description=long_description,

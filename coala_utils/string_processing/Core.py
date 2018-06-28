@@ -394,20 +394,21 @@ def unescape(string):
     return re.sub(regex, lambda m: m.group(1), string, 0, re.DOTALL)
 
 
-def position_is_escaped(string, position=None):
+def position_is_escaped(string, position=None, escape_with='\\'):
     """
     Checks whether a char at a specific position of the string is preceded by
-    an odd number of backslashes.
+    an odd number of escape characters.
 
-    :param string:   Arbitrary string
-    :param position: Position of character in string that should be checked
-    :return:         True if the character is escaped, False otherwise
+    :param string:      Arbitrary string
+    :param position:    Position of character in string that should be checked
+    :param escape_with: Character used for escaping
+    :return:            True if the character is escaped, False otherwise
     """
     escapes_uneven = False
     # iterate backwards, starting one left of position.
     # Slicing provides a sane default behaviour and prevents IndexErrors
     for i in range(len(string[:position]) - 1, -1, -1):
-        if string[i] == '\\':
+        if string[i] == escape_with:
             escapes_uneven = not escapes_uneven
         else:
             break

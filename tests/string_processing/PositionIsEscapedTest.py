@@ -64,3 +64,22 @@ class PositionIsEscapedTest(StringProcessingTestBase):
             position_is_escaped,
             {(test_string, position): result
              for position, result in result_dict.items()})
+
+    # Test position_is_escaped() for a PowerShell script
+    def test_powershell(self):
+        expected_results = [
+            7 * [False] + [True] + 11 * [False] + [True] + 9 * [False],
+            12 * [False] + [True] + 5 * [False] + [True] + 7 * [False],
+            11 * [False] + [True, False, True] + 7 * [False] + [True, False],
+            20 * [False] + [True] + 9 * [False] + [True] + 4 * [False] + [True],
+            4 * [False] + [True] + 3 * [False] + [True] + 11 * [False],
+            24 * [False] + [True] + 12 * [False],
+        ]
+
+        self.assertResultsEqual(
+            position_is_escaped,
+            {(test_string, position, '`'): result
+             for test_string, string_result in zip(self.powershell_test_script,
+                                                   expected_results)
+             for position, result in zip(range(len(test_string)),
+                                         string_result)})

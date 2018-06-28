@@ -66,6 +66,16 @@ class StringProcessingTestBase(unittest.TestCase):
         r"bcc5\(\(\((((((\\\(((((((((((1)2)3))\\\\\)))))))))))))\)\)",
         r"Let's \(do (it ) more ) \\ complicated ) ) ) () (hello.)\\z"]
 
+    # Test string for testing escape character '`' for a PowerShell script.
+    powershell_test_script = [
+        r'echo "`tFirst line`nNew line"',
+        r'"cn=James \`"Jim\`" Smith"',
+        r'"cn=James ```$ Smith``"',
+        r'Write-Host "Header1`tHeader2 `n123`n"',
+        r'"12`t90`n1234567890"',
+        r'Write-Host "First Line `nSecond line"',
+    ]
+
     @staticmethod
     def _construct_message(func, args, kwargs):
         """

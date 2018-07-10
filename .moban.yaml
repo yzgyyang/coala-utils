@@ -14,7 +14,7 @@ docs_dir: false
 
 dependencies:
   - appdirs==1.4.*
-  - pyprint==0.2.*
+  - git+https://gitlab.com/coala/PyPrint#egg=pyprint
   - pyreadline~=2.1; platform_system == 'Windows'
 
 configuration:

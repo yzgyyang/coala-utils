@@ -39,10 +39,10 @@ def subprocess_timeout(sub_process, seconds, kill_pg=False):
         finished.wait(seconds)
         if not finished.is_set():
             timedout.value = True
-            if kill_pg:
+            if kill_pg:  # pragma Windows: no cover
                 pgid = os.getpgid(sub_process.pid)
             os.kill(sub_process.pid, signal.SIGINT)
-            if kill_pg:
+            if kill_pg:  # pragma Windows: no cover
                 os.killpg(pgid, signal.SIGINT)
 
     thread = threading.Thread(name='timeout-killer', target=kill_it)

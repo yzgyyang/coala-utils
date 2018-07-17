@@ -29,3 +29,5 @@ targets:
   - requirements.txt: requirements.txt.jj2
   - test-requirements.txt: test-requirements.txt.jj2
   - coala_utils/VERSION: VERSION.jj2
+  - .ci/appveyor.yml: ci/appveyor.yml.jj2
+  - .ci/run_with_env.cmd: run_with_env.cmd

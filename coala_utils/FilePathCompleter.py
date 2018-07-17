@@ -2,10 +2,8 @@ import glob
 import os
 
 # GNU readline is not available for Windows
-try:
-    import readline
-except ImportError:  # pragma Linux: no cover
-    import pyreadline as readline
+# On Windows imports readline from pyreadline
+import readline
 
 
 def sorted_glob(glob_str):

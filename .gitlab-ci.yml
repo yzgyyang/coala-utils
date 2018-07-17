@@ -37,3 +37,7 @@ tests:3.5:
 tests:3.6:
   image: python:3.6-alpine
   script: *common_test_script
+
+tests:3.7:
+  image: python:3.7-alpine
+  script: *common_test_script

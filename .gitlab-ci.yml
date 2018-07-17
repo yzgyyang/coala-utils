@@ -9,7 +9,6 @@ moban:
 
 cache:
   paths:
-    - .tox
     - ~/.local/share/coala-bears/
     - ~/.cache/pip
 
@@ -21,24 +20,18 @@ static_analysis:
 
 .common_test_script: &common_test_script
   - apk add --no-cache git
-  - pip install tox~=2.7 codecov~=2.0.5
-  - tox --develop
+  - pip install -r requirements.txt -r test-requirements.txt
+  - pytest
   - codecov
 
 tests:3.4:
   image: python:3.4-alpine
-  variables:
-    TOXENV: py34
   script: *common_test_script
 
 tests:3.5:
   image: python:3.5-alpine
-  variables:
-    TOXENV: py35
   script: *common_test_script
 
 tests:3.6:
   image: python:3.6-alpine
-  variables:
-    TOXENV: py36
   script: *common_test_script

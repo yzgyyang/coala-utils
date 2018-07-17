@@ -1,6 +1,6 @@
 [Default]
 files = **/*.py
-ignore = env/**,venv/**,.env/**,.tox/**
+ignore = env/**,venv/**,.env/**,.tox/**,build/**
 
 max_line_length = 80
 use_spaces = True

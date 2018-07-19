@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+__all__ = ('appdirs', 'VERSION', 'TRUE_STRINGS',
+           'FALSE_STRINGS', 'URL_REGEX')
+
 import appdirs
 import re
 

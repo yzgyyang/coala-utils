@@ -1,43 +1,60 @@
 variables:
+  PYTHON: python3
+  DEBIAN_FRONTEND: noninteractive
   XDG_CACHE_HOME: "$CI_PROJECT_DIR/.cache/"
-
-moban:
-  image: python:3.5
-  before_script:
-    - pip install moban
-    - git clone https://gitlab.com/coala/mobans ../coala-mobans
-  script:
-    - moban
-    - git diff --exit-code
 
 cache:
   paths:
     - .cache/pip
 
-static_analysis:
-  image: python:3.5-alpine
-  script:
-    - pip install 'coala-bears[alldeps]'
-    - coala --ci
 
-.common_test_script: &common_test_script
-  - apk add --no-cache git
-  - pip install -r requirements.txt -r test-requirements.txt
-  - pytest
-  - codecov
+.common_deps_script: &common_deps_script |
+  apk add --no-cache git  # for git+ requirements
+  $PYTHON -m pip install setuptools==21 pip==9
+  pip install -r test-requirements.txt -r requirements.txt
+
+.common_script: &common_script
+  - $PYTHON -m pytest --cov-fail-under=100
+  - $PYTHON -m codecov
+
+
 
 tests:3.4:
   image: python:3.4-alpine
-  script: *common_test_script
+  before_script:
+    - *common_deps_script
+  script: *common_script
 
 tests:3.5:
   image: python:3.5-alpine
-  script: *common_test_script
+  before_script:
+    - *common_deps_script
+  script: *common_script
 
 tests:3.6:
   image: python:3.6-alpine
-  script: *common_test_script
+  before_script:
+    - *common_deps_script
+  script: *common_script
 
 tests:3.7:
   image: python:3.7-alpine
-  script: *common_test_script
+  before_script:
+    - *common_deps_script
+  script: *common_script
+
+lint:
+  image: python:3.5
+  before_script:
+    - $PYTHON -m pip install setuptools==21 pip==9
+    - pip install 'git+https://github.com/coala/coala#egg=coala'
+    - pip install 'git+https://github.com/coala/coala-bears#egg=coala-bears'
+  script:
+    - coala --ci
+
+moban:
+  image: python:3.5
+  before_script:
+    - pip install moban
+  script:
+    - .ci/check_moban.sh

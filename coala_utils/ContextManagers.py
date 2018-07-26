@@ -32,7 +32,7 @@ def subprocess_timeout(sub_process, seconds, kill_pg=False):
 
     finished = threading.Event()
 
-    if platform.system() == "Windows":  # pragma: no cover
+    if platform.system() == "Windows":  # pragma posix: no cover
         kill_pg = False
 
     def kill_it():

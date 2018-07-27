@@ -5,7 +5,7 @@ variables:
 
 cache:
   paths:
-    - .cache/pip
+    - $CI_PROJECT_PATH/.cache/pip
 
 
 .common_deps_script: &common_deps_script |
@@ -17,31 +17,33 @@ cache:
   - $PYTHON -m pytest --cov-fail-under=100
   - $PYTHON -m codecov
 
-
-
 tests:3.4:
   image: python:3.4-alpine
   before_script:
     - *common_deps_script
   script: *common_script
+  coverage: '/Total coverage: \d+\.\d+%/'
 
 tests:3.5:
   image: python:3.5-alpine
   before_script:
     - *common_deps_script
   script: *common_script
+  coverage: '/Total coverage: \d+\.\d+%/'
 
 tests:3.6:
   image: python:3.6-alpine
   before_script:
     - *common_deps_script
   script: *common_script
+  coverage: '/Total coverage: \d+\.\d+%/'
 
 tests:3.7:
   image: python:3.7-alpine
   before_script:
     - *common_deps_script
   script: *common_script
+  coverage: '/Total coverage: \d+\.\d+%/'
 
 lint:
   image: python:3.5

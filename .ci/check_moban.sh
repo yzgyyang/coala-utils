@@ -9,5 +9,7 @@ if [ ! -d ../coala-mobans ]; then
           --branch=${MOBAN_BRANCH} ../coala-mobans
 fi
 
+date
+
 moban
 git diff --exit-code

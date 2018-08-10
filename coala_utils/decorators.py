@@ -375,12 +375,25 @@ def generate_ordering(*members):
     return decorator
 
 
+class _SignatureProxy():
+    def __init__(self, name):
+        self.name = name
+
+
+def signature_type_by_name(name):
+    return _SignatureProxy(name)
+
+
 def assert_right_type(value, types, argname):
-    if isinstance(types, type) or types is None:
+    if (isinstance(types, type) or isinstance(types, _SignatureProxy) or
+            types is None):
         types = (types,)
 
     for typ in types:
         if value == typ or (isinstance(typ, type) and isinstance(value, typ)):
+            return
+        elif (isinstance(typ, _SignatureProxy) and
+              value.__class__.__name__ == typ.name):
             return
 
     raise TypeError("{} must be an instance of one of {} (provided value: "

@@ -3,6 +3,7 @@ import unittest
 from coala_utils.decorators import (
     arguments_to_lists, enforce_signature, generate_eq, generate_ordering,
     generate_repr, yield_once)
+from coala_utils.decorators import signature_type_by_name
 
 
 class YieldOnceTest(unittest.TestCase):
@@ -323,3 +324,28 @@ class EnforceSignatureTest(unittest.TestCase):
 
         test_function(4, "t")
         test_function(None, "t", "anything", "test")
+
+    def test_enforce_class(self):
+        class ClassA():
+            x = 1
+
+        class ClassB():
+            x = 1
+
+        @enforce_signature
+        def test_function(a: signature_type_by_name('ClassA'), b: str):
+            pass
+
+        @enforce_signature
+        def test_function_2(
+                a: (signature_type_by_name('ClassA'),
+                    signature_type_by_name('ClassB')),
+                b: str):
+            pass
+
+        with self.assertRaises(TypeError):
+            test_function(ClassB(), "t")
+
+        test_function(ClassA(), "t")
+        test_function_2(ClassA(), "t")
+        test_function_2(ClassB(), "t")

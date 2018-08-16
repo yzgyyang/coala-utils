@@ -17,6 +17,9 @@ except (ValueError, UnicodeError, locale.Error):
     locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
 VERSION = '0.7.0'
+DESCRIPTION = (
+    'A collection of coala utilities'
+)
 DEPENDENCY_LINKS = []
 
 SETUP_COMMANDS = {}
